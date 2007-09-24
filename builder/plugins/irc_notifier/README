@@ -1,0 +1,25 @@
+h2. What's this?
+
+This is a builder plugin for "CruiseControl.rb":http://cruisecontrolrb.thoughtworks.com that sends build notices
+to IRC channels.
+
+"IRC (Internet Relay Chat)":http://www.irc.org is a form of real-time Internet chat or synchronous conferencing.
+
+
+h2. Installation
+
+# Copy irc_notifier folder to builder_plugins/installed
+# Modify builds/your_project/cruise_config.rb by adding the following lines
+   (change subscriber ids and sender account details to appropriate) :
+    <pre><code>
+      Project.configure do |project|
+        ...
+        project.irc_notifier.nickname = 'CruiseControl'
+        project.irc_notifier.server = 'irc.freenode.net'
+        project.irc_notifier.port = '6667'
+        project.irc_notifier.realname = 'Cruise Controloff'
+        project.irc_notifier.chatroom = '#ccrbtest'
+        ...
+      end
+    </code></pre>
+# Start the builder (./cruise build your_project)
