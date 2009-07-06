@@ -1,4 +1,4 @@
-class IrcNotifier < BuilderPlugin
+class IrcNotifier
   attr_accessor :nickname, :server, :port, :realname, :chatroom
 
   def initialize(project = nil)
