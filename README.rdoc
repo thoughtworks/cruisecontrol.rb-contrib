@@ -2,13 +2,15 @@
 
 This project exists to host various contributions to CruiseControl.rb project that, while cool and helpful, don't
 necessarily belong in the core project. Examples of this include build notifiers for various third-party communication
-services, not all of which every 
+services, not all of which necessarily need to be included in core CCRB.
+
+The main CruiseControl.rb repository is located at http://github.com/thoughtworks/cruisecontrol.rb/tree/master.
 
 == Contributing a plugin to this project
 
-If you'd like to contribute a plugin (and we'd love it if you did) we have a contribution[http://cruisecontrolrb.thoughtworks.com/documentation/contributing]
-policy[http://cruisecontrolrb.thoughtworks.com/documentation/contributing] outlined in the official product manual.
-That having been said, we'd like individual plugin contributors to own and maintain their contributions. If you'd
+If you'd like to contribute a plugin (and we'd love it if you did) we have a 
+{contribution policy}[http://cruisecontrolrb.thoughtworks.com/documentation/contributing] outlined in the official 
+manual. That having been said, we'd like individual plugin contributors to own and maintain their contributions. If you'd
 like commit access to the contrib project, please let us know here on Github and we'll try to set you up.
 
 We're also still trying to decide what the best way is to host our plugins. Should they reside in a single project?
