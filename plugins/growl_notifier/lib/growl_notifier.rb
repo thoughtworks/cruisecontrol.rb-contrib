@@ -1,4 +1,4 @@
-class GrowlNotifier
+class GrowlNotifier < BuilderPlugin
   BUILD_FIXED_NOTIFICATION = 'Build Fixed'
   BUILD_BROKEN_NOTIFICATION = 'Build Broken'
   NOTIFICATION_TYPES = [BUILD_FIXED_NOTIFICATION, BUILD_BROKEN_NOTIFICATION]

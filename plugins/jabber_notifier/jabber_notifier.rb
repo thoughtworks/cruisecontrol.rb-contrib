@@ -1,6 +1,6 @@
 require 'xmpp4r/roster'
 
-class JabberNotifier
+class JabberNotifier < BuilderPlugin
   attr_accessor :subscribers, :account, :password
 
   def initialize(project = nil)

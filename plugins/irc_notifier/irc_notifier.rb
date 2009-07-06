@@ -1,7 +1,4 @@
-
-
-
-class IrcNotifier
+class IrcNotifier < BuilderPlugin
   attr_accessor :nickname, :server, :port, :realname, :chatroom
 
   def initialize(project = nil)
@@ -10,7 +7,6 @@ class IrcNotifier
     @port = ''
     @realname = ''
     @chatroom = ''
-
   end
 
   def connect
