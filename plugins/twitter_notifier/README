@@ -1,0 +1,25 @@
+Developed By Emerson Macedo (http://github.com/emerleite - http://codificando.com)
+
+h2. What's this?
+
+This is a builder plugin for "CruiseControl.rb":http://cruisecontrolrb.thoughtworks.com that sends build notices
+to twitter.
+
+"Twitter":http://www.twitter.com is microbloging very usefull for news and notices.
+
+h2. Installation
+
+# Create a Twitter account that you will use for sending notifications.
+# Make sure that all who want to notify follows this account
+
+# Copy twitter_notifier folder to builder_plugins/
+# Modify builds/your_project/cruise_config.rb by adding the following lines
+        <pre><code>
+        Project.configure do |project|
+            ...
+            project.twitter_notifier.username = "youruser"
+            project.twitter_notifier.password = "yourpassword"
+            ...
+        end
+        </code></pre>
+# Start the builder (./cruise build your_project)
