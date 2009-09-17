@@ -14,11 +14,10 @@ h1. Installation
   <pre><code>
     Project.configure do |project|
       ...
-      project.campfire_notifier.nickname = 'CruiseControl'
-      project.campfire_notifier.server = 'irc.freenode.net'
-      project.campfire_notifier.port = '6667'
-      project.campfire_notifier.realname = 'Cruise Controloff'
-      project.campfire_notifier.chatroom = '#ccrbtest'
+      project.campfire_notifier.subdomain = 'cruisecontrol'
+      project.campfire_notifier.room = 'room'
+      project.campfire_notifier.username = 'user'
+      project.campfire_notifier.password = 'pass'
       ...
     end
   </code></pre>
