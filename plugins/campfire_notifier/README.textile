@@ -1,0 +1,25 @@
+h1. What's this?
+
+This is a builder plugin for "CruiseControl.rb":http://cruisecontrolrb.thoughtworks.com that sends build notices to Campfire.
+
+"Campfire":http://campfirenow.com/ is a web-based group chat tool.
+
+
+h1. Installation
+
+# Sign up for a campfire account that you will use for sending notifications.
+# Copy campfire_notifier plugin folder to builder_plugins/installed
+# Modify builds/your_project/cruise_config.rb by adding the following lines
+  (change details as appropriate):
+  <pre><code>
+    Project.configure do |project|
+      ...
+      project.campfire_notifier.nickname = 'CruiseControl'
+      project.campfire_notifier.server = 'irc.freenode.net'
+      project.campfire_notifier.port = '6667'
+      project.campfire_notifier.realname = 'Cruise Controloff'
+      project.campfire_notifier.chatroom = '#ccrbtest'
+      ...
+    end
+  </code></pre>
+# Start the builder (./cruise build your_project)
