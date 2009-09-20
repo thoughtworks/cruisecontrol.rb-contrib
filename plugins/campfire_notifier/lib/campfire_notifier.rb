@@ -16,7 +16,13 @@ class CampfireNotifier < BuilderPlugin
     CruiseControl::Log.debug("Campfire notifier: connecting to #{@subdomain}")
     @campfire = Tinder::Campfire.new(@subdomain)
     CruiseControl::Log.debug("Campfire notifier: authenticating user: #{@username}")
-    @campfire.login(@username, @password)
+    begin
+      @campfire.login(@username, @password)
+    rescue Tinder::Error
+      CruiseControl::Log.warn("Campfire notifier: login failed, unable to notify")
+      return false
+    end
+
     CruiseControl::Log.debug("Campfire notifier: finding room: #{@room}")
     @chat_room = @campfire.find_room_by_name(@room)
   end
@@ -56,12 +62,15 @@ class CampfireNotifier < BuilderPlugin
     def notify(build)
       message = notification_message(build)
       
-      connect
-      begin
-        CruiseControl::Log.debug("Campfire notifier: sending notice: '#{message}'")
-        @chat_room.speak(message)
-      ensure
-        disconnect rescue nil
+      if connect
+        begin
+          CruiseControl::Log.debug("Campfire notifier: sending notice: '#{message}'")
+          @chat_room.speak(message)
+        ensure
+          disconnect rescue nil
+        end
+      else
+        CruiseControl::Log.warn("Campfire notifier: couldn't connect to send notice: '#{message}'")
       end
     end
 end
