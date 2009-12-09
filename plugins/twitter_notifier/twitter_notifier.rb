@@ -18,12 +18,12 @@ class TwitterNotifier < BuilderPlugin
   end
 
   def build_finished(build)
-    return if @username.empty? or @password.empty? or not build.failed?
+    return if @username.nil? or @password.nil? or not build.failed?
     tweet build, "#{build.project.name} build #{build.label} failed"
   end
 
   def build_fixed(build, previous_build)
-    return if @username.empty? or @password.empty?
+    return if @username.nil? or @password.nil?
     tweet build, "#{build.project.name} build #{build.label} fixed"
   end
 
