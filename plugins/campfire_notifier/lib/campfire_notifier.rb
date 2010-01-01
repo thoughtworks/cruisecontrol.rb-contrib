@@ -13,6 +13,10 @@ class CampfireNotifier < BuilderPlugin
   end
 
   def connect
+    unless @subdomain
+      CruiseControl::Log.warn("Failed to load Campfire notifier plugin settings.  See the README in the plugin for instructions.")
+      return false
+    end
     CruiseControl::Log.debug("Campfire notifier: connecting to #{@subdomain}")
     @campfire = Tinder::Campfire.new(@subdomain)
     CruiseControl::Log.debug("Campfire notifier: authenticating user: #{@username}")
