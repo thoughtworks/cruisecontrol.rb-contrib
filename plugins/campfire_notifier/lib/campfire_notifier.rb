@@ -1,5 +1,13 @@
 begin
-  require 'tinder' 
+  require 'rubygems'
+  gem 'httparty','~>0.4.3'
+rescue
+  CruiseControl::Log.fatal("Requires httparty gem ~>0.4.5, =0.4.5 and =5.0.0 don't work")
+  exit
+end
+
+begin
+  require 'tinder'
 rescue LoadError
   CruiseControl::Log.fatal("Campfire notifier: Unable to load 'tinder' gem.")
   CruiseControl::Log.fatal("Install the tinder gem with: sudo gem install tinder")
