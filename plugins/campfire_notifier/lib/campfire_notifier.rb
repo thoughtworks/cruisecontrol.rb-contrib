@@ -2,7 +2,7 @@ begin
   require 'tinder' 
 rescue LoadError
   CruiseControl::Log.fatal("Campfire notifier: Unable to load 'tinder' gem.")
-  CruiseControl::Log.fatal("Install the tinder gem with: sudo gem install collectiveidea-tinder")
+  CruiseControl::Log.fatal("Install the tinder gem with: sudo gem install tinder")
   exit
 end
 

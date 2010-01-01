@@ -8,17 +8,23 @@ This is a builder plugin for "CruiseControl.rb":http://cruisecontrolrb.thoughtwo
 h1. Installation
 
 # Sign up for a campfire account that you will use for sending notifications.
-# Copy campfire_notifier plugin folder to builder_plugins/installed
-# Modify builds/your_project/cruise_config.rb by adding the following lines
-  (change details as appropriate):
+# Install the 'tinder' gem
+# Copy campfire_notifier plugin folder to ~/.cruise/builder_plugins/
+# Create ~/.cruise/campfire_notifier_plugin_settings.rb:
   <pre><code>
-    Project.configure do |project|
-      ...
       project.campfire_notifier.subdomain = 'cruisecontrol'
       project.campfire_notifier.room = 'room'
       project.campfire_notifier.username = 'user'
       project.campfire_notifier.password = 'pass'
+  </code></pre>
+# Modify your project's cruise_config.rb by adding the following lines
+  <pre><code>
+    Project.configure do |project|
+      ...
+      eval File.readlines("#{CRUISE_DATA_ROOT}/campfire_notifier_settings.rb").join
       ...
     end
   </code></pre>
-# Start the builder (./cruise build your_project)
+# The use of eval to read the file from cruise_config.rb prevents the token/password from being shown in the cruise UI
+# You can also specify your Campfire API token as the username, and leave the password empty.
+# Start cruisecontrol
