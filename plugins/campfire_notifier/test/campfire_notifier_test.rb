@@ -9,9 +9,9 @@ class CampfireNotifierTest < Test::Unit::TestCase
   end
 
   def test_connect_should_true_for_valid_login_and_room
-    campfire = mock()
+    campfire = mock
     campfire.expects(:login).with('username', 'password').returns(true)
-    campfire.expects(:find_room_by_name).with('room').returns(mock())
+    campfire.expects(:find_room_by_name).with('room').returns(mock)
     Tinder::Campfire.expects(:new).returns(campfire)
 
     @notifier.username = 'username'
@@ -21,7 +21,7 @@ class CampfireNotifierTest < Test::Unit::TestCase
   end
 
   def test_connect_should_return_false_for_invalid_login
-    campfire = mock()
+    campfire = mock
     campfire.expects(:login).raises(Tinder::Error.new)
     Tinder::Campfire.expects(:new).returns(campfire)
 
@@ -29,7 +29,7 @@ class CampfireNotifierTest < Test::Unit::TestCase
   end
 
   def test_connect_should_return_false_for_invalid_room
-    campfire = mock()
+    campfire = mock
     campfire.expects(:login).returns(true)
     campfire.expects(:find_room_by_name).returns(nil)
     Tinder::Campfire.expects(:new).returns(campfire)
@@ -41,7 +41,7 @@ class CampfireNotifierTest < Test::Unit::TestCase
   end
 
   def test_should_warn_if_login_fails
-    campfire = mock()
+    campfire = mock
     campfire.expects(:login).raises(Tinder::Error.new)
     Tinder::Campfire.expects(:new).returns(campfire)
     CruiseControl::Log.expects(:warn).with { |value| value =~ /login failed/ }
@@ -50,14 +50,14 @@ class CampfireNotifierTest < Test::Unit::TestCase
   end
 
   def test_should_logout_on_disconnect_if_logged_in
-    @notifier.campfire = mock()
+    @notifier.campfire = mock
     @notifier.campfire.expects(:logout)
     @notifier.campfire.expects(:logged_in?).returns(true)
     @notifier.disconnect
   end
 
   def test_should_not_logout_on_disconnect_if_not_logged_in
-    @notifier.campfire = mock()
+    @notifier.campfire = mock
     @notifier.campfire.expects(:logout).never
     @notifier.campfire.expects(:logged_in?).returns(false)
     @notifier.disconnect
@@ -80,35 +80,46 @@ class CampfireNotifierTest < Test::Unit::TestCase
   end
 
   def test_should_not_be_connected_if_not_logged_in
-    @notifier.campfire = mock()
+    @notifier.campfire = mock
     @notifier.campfire.expects(:logged_in?).returns(false)
     assert !@notifier.connected?
   end
 
   def test_should_be_connected_if_logged_in
-    @notifier.campfire = mock()
+    @notifier.campfire = mock
     @notifier.campfire.expects(:logged_in?).returns(true)
     assert @notifier.connected?
   end
 
   def test_should_notify_on_build_fixed
-    fixed = mock()
-    previous = mock()
+    fixed = mock
+    previous = mock
     @notifier.expects(:notify).with(fixed)
     @notifier.build_fixed(fixed, previous)
   end
 
   def test_should_notify_on_build_failure
-    build = mock()
+    build = mock
     build.expects(:failed?).returns(true)
     @notifier.expects(:notify).with(build)
     @notifier.build_finished(build)
   end
 
   def test_should_not_notify_on_build_success
-    build = mock()
+    build = mock
     build.expects(:failed?).returns(false)
     @notifier.expects(:notify).never
     @notifier.build_finished(build)
+  end
+
+  def test_notification_message_formatting
+    build = mock
+    build.expects(:failed?).returns(true)
+    project = mock
+    build.expects(:project).returns(project)
+    project.expects(:name).returns('projectname')
+    Configuration.expects(:dashboard_url).returns(true)
+    build.expects(:url).returns('http://dashboard_url/build')
+    assert_equal @notifier.notification_message(build), 'CI build projectname BROKEN: http://dashboard_url/build'
   end
 end
