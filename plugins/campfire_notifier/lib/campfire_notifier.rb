@@ -30,6 +30,7 @@ class CampfireNotifier < BuilderPlugin
     
     CruiseControl::Log.debug("Campfire notifier: finding room: #{@room}")
     @chat_room = @campfire.find_room_by_name(@room)
+    connected?
   end
 
   def disconnect
