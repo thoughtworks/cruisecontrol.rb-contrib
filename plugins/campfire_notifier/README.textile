@@ -22,7 +22,7 @@ h1. Installation
     Project.configure do |project|
       ...
       begin
-        eval File.readlines("#{CRUISE_DATA_ROOT}/campfire_notifier_settings.rb").join
+        eval File.readlines("#{CRUISE_DATA_ROOT}/campfire_notifier_plugin_settings.rb").join
       rescue
         CruiseControl::Log.warn("Failed to load Campfire notifier settings")
       end
