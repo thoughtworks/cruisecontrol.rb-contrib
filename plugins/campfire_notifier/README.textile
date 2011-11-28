@@ -14,8 +14,8 @@ h1. Installation
   <pre><code>
       project.campfire_notifier.subdomain = 'cruisecontrol'
       project.campfire_notifier.room = 'room'
-      project.campfire_notifier.username = 'user'
-      project.campfire_notifier.password = 'pass'
+      project.campfire_notifier.ssl = true
+      project.campfire_notifier.token = 'your campfire token'
   </code></pre>
 # Modify your project's cruise_config.rb by adding the following lines
   <pre><code>
