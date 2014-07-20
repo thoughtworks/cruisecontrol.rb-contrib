@@ -1,8 +1,8 @@
 begin
   require 'rubygems'
-  gem 'httparty','~>0.4.3'
+  gem 'httparty'
 rescue
-  CruiseControl::Log.fatal("Requires httparty gem ~>0.4.5, =0.4.5 and =5.0.0 don't work")
+  CruiseControl::Log.fatal("Requires httparty gem")
   exit
 end
 
@@ -15,7 +15,7 @@ rescue LoadError
 end
 
 class CampfireNotifier < BuilderPlugin
-  attr_accessor :subdomain, :room, :username, :password, :campfire
+  attr_accessor :subdomain, :room, :ssl, :token, :campfire
 
   def initialize(project = nil)
   end
@@ -26,31 +26,20 @@ class CampfireNotifier < BuilderPlugin
       return false
     end
     CruiseControl::Log.debug("Campfire notifier: connecting to #{@subdomain}")
-    @campfire = Tinder::Campfire.new(@subdomain)
-    CruiseControl::Log.debug("Campfire notifier: authenticating user: #{@username}")
-    begin
-      @campfire.login(@username, @password)
-    rescue Tinder::Error
-      CruiseControl::Log.warn("Campfire notifier: login failed, unable to notify")
-      return false
-    end
-
+    @campfire = Tinder::Campfire.new @subdomain, :ssl => @ssl, :token => @token
+    
     CruiseControl::Log.debug("Campfire notifier: finding room: #{@room}")
     @chat_room = @campfire.find_room_by_name(@room)
+    true
   end
 
   def disconnect
     CruiseControl::Log.debug("Campfire notifier: disconnecting from #{@subdomain}")
-    @campfire.logout if defined?(@campfire) && @campfire.logged_in?
   end
 
   def reconnect
     disconnect
     connect
-  end
-
-  def connected?
-    defined?(@campfire) && @campfire.logged_in?
   end
 
   def build_finished(build)
