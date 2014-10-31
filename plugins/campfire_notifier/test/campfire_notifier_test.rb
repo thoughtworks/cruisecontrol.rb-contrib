@@ -10,9 +10,8 @@ class CampfireNotifierTest < Test::Unit::TestCase
 
   def test_connect_should_true_for_valid_login_and_room
     campfire = mock
-    campfire.expects(:login).with('username', 'password').returns(true)
     campfire.expects(:find_room_by_name).with('room').returns(mock)
-    Tinder::Campfire.expects(:new).returns(campfire)
+    Tinder::Campfire.expects(:new).with('sub', :username => 'username', :password => 'password').returns(campfire)
 
     @notifier.username = 'username'
     @notifier.password = 'password'
@@ -21,16 +20,13 @@ class CampfireNotifierTest < Test::Unit::TestCase
   end
 
   def test_connect_should_return_false_for_invalid_login
-    campfire = mock
-    campfire.expects(:login).raises(Tinder::Error.new)
-    Tinder::Campfire.expects(:new).returns(campfire)
+    Tinder::Campfire.expects(:new).raises(Tinder::AuthenticationFailed.new)
 
     assert !@notifier.connect
   end
 
   def test_connect_should_return_false_for_invalid_room
     campfire = mock
-    campfire.expects(:login).returns(true)
     campfire.expects(:find_room_by_name).returns(nil)
     Tinder::Campfire.expects(:new).returns(campfire)
 
@@ -41,9 +37,7 @@ class CampfireNotifierTest < Test::Unit::TestCase
   end
 
   def test_should_warn_if_login_fails
-    campfire = mock
-    campfire.expects(:login).raises(Tinder::Error.new)
-    Tinder::Campfire.expects(:new).returns(campfire)
+    Tinder::Campfire.expects(:new).raises(Tinder::AuthenticationFailed.new)
     CruiseControl::Log.expects(:warn).with { |value| value =~ /login failed/ }
 
     @notifier.connect
